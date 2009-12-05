@@ -7,7 +7,7 @@ module SpellCheck
 
   def alternatives
     return [] if is_known_word?
-    result = (deletions+transpositions+alterations+insertions).find_all {|w| known_words.include?(w) }
+    result = (deletions+transpositions+alterations+insertions).find_all {|w| is_known_word?(w) }
   end
 
   def known_words
@@ -40,8 +40,8 @@ module SpellCheck
     words
   end
 
-  def is_known_word?
-    known_words.has_key?(self)
+  def is_known_word?(word=self)
+    known_words.has_key?(word)
   end
   
   def dictionary_file
