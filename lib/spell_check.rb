@@ -7,7 +7,7 @@ module SpellCheck
 
   def alternatives
     return [] if is_known_word?
-    result = (deletions+transpositions+alterations+insertions).find_all {|w| is_known_word?(w) }
+    (deletions + transpositions + alterations + insertions).find_all {|w| is_known_word?(w) }
   end
 
   def known_words
@@ -30,25 +30,25 @@ module SpellCheck
   
   def alterations
     words = []
-    length.times {|i| letters.each_byte {|l| words << self[0...i]+l.chr+self[i+1..-1] } }
+    length.times {|i| alphabet.each {|l| words << self[0...i]+l+self[i+1..-1] } }
     words
   end
   
   def insertions
     words = []
-    (length+1).times {|i| letters.each_byte {|l| words << self[0...i]+l.chr+self[i..-1] } }
+    (length+1).times {|i| alphabet.each {|l| words << self[0...i]+l+self[i..-1] } }
     words
   end
 
-  def is_known_word?(word=self)
-    known_words.has_key?(word)
+  def is_known_word?(word = nil)
+    known_words.has_key?(word || self)
   end
   
   def dictionary_file
     Marshal.load(File.read(File.dirname(__FILE__)+'/holmes.dict'))
   end
   
-  def letters
-    ("a".."z").to_a.join
+  def alphabet
+    ("a".."z").to_a
   end
 end
