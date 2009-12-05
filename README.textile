@@ -1,13 +1,15 @@
 Using "an analysis of spelling correctors by Peter Norvig":http://www.norvig.com/spell-correct.html 
 as a code exercise in Ruby.
 
-
-
 ----------------------------------------------------------------------------
+
 Some benchmarking after converting the default dictionary to a marshaled hash:
+
 |user|system|total|real|
 |#correct? marshaled dictionary|0.010000|0.000000|0.010000 (  0.009694)|
 |#correct? ebook dictionary|0.280000|0.020000|0.300000 (  0.315953)|
 |#alternatives|0.010000|0.000000|0.010000 (  0.011474)|
+
 ----------------------------------------------------------------------------
+
 "Wikipedia: Spell Checker":http://en.wikipedia.org/wiki/Spell_checker
