@@ -18,6 +18,10 @@ Spec::Matchers.define :have_alternatives do |expected|
   match do |string|
     string.extend(SpellCheck).alternatives == expected
   end
+  
+  failure_message_for_should do |string|
+    "Expected '#{string}' to have alternatives [#{expected.join(', ')}] but found [#{string.alternatives.join(', ')}]."
+  end 
 end
 
 describe SpellCheck do
