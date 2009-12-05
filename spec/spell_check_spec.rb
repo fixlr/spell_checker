@@ -1,10 +1,14 @@
 require File.dirname(__FILE__)+"/../lib/spell_check"
 
-Spec::Matchers.define :be_spelled_correctly do
+Spec::Matchers.define :be_defined_in do |dict|
   match do |string|
-    string.extend(SpellCheck).correct?
+    if dict == :default
+      string.extend(SpellCheck).correct?
+    else
+      string.extend(SpellCheck).with_dictionary(dict).correct?
+    end
   end
-  
+
   failure_message_for_should do |string|
     "Expected '#{string}' to be spelled correctly."
   end
@@ -27,15 +31,15 @@ end
 describe SpellCheck do
   context "with the default dictionary" do
     it "should not find spelling errors in an empty string" do
-      "".should be_spelled_correctly
+      "".should be_defined_in(:default)
     end
   
     it "should know words that are in the word dictionary" do
-      "trademark".should be_spelled_correctly
+      "trademark".should be_defined_in(:default)
     end
   
     it "should find spelling errors for words that are not in the word dictionary" do
-      "awesome".should_not be_spelled_correctly
+      "awesome".should_not be_defined_in(:default)
     end
 
     it "should not suggest alternatives for words that are spelled correctly" do
@@ -49,10 +53,10 @@ describe SpellCheck do
 
   context "with a custom dictionary" do
     it "should know words that are in the custom dictionary" do
-      "awesome".extend(SpellCheck).with_dictionary("spelling is awesome").should be_spelled_correctly
+      "awesome".should be_defined_in("spelling is awesome")
     end
     it "should not know words that are in the default dictionary" do
-      "trademark".extend(SpellCheck).with_dictionary("spelling is awesome").should_not be_spelled_correctly
+      "trademark".should_not be_defined_in("spelling is awesome")
     end
   end
 end
