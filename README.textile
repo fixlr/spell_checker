@@ -2,7 +2,7 @@ Using "an analysis of spelling correctors":http://www.norvig.com/spell-correct.h
 
 ----------------------------------------------------------------------------
 
-h2. Benchmarking
+h3. Benchmarking
 
 |user|system|total|real|
 |#correct? marshaled dictionary|0.010000|0.000000|0.010000 (  0.009694)|
@@ -11,6 +11,6 @@ h2. Benchmarking
 
 ----------------------------------------------------------------------------
 
-h2. Other Resources
+h3. Other Resources
 
 Wikipedia: "Spell Checker":http://en.wikipedia.org/wiki/Spell_checker
