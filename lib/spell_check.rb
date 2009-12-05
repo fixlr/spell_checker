@@ -11,7 +11,12 @@ module SpellCheck
   end
 
   def known_words
-    @known_words ||= dictionary_file.downcase.scan(/[a-z]+/)
+    @known_words ||= (@custom_dictionary || dictionary_file)
+  end
+
+  def with_dictionary(dict)
+    @custom_dictionary = Hash[dict.downcase.scan(/[a-z]+/).collect{|v| [v, true]}]
+    self
   end
 
   private
@@ -36,11 +41,11 @@ module SpellCheck
   end
 
   def is_known_word?
-    known_words.include?(self)
+    known_words.has_key?(self)
   end
   
   def dictionary_file
-    File.read(File.dirname(__FILE__)+'/holmes.txt')
+    Marshal.load(File.read(File.dirname(__FILE__)+'/holmes.dict'))
   end
   
   def letters
