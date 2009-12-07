@@ -7,11 +7,7 @@ module SpellCheck
 
   def alternatives
     return [] if is_known_word?
-    (deletions + transpositions + alterations + insertions).find_all {|w| is_known_word?(w) }
-  end
-
-  def known_words
-    @known_words ||= (@custom_dictionary || dictionary_file)
+    known_words_in(deletions + transpositions + alterations + insertions)
   end
 
   def with_dictionary(dict)
@@ -19,7 +15,11 @@ module SpellCheck
     self
   end
 
-  private
+private
+  def known_words
+    @known_words ||= (@custom_dictionary || dictionary_file)
+  end
+
   def deletions
     (0...length).collect {|i| self[0...i]+self[i+1..-1] }
   end
@@ -38,6 +38,10 @@ module SpellCheck
     words = []
     (length+1).times {|i| alphabet.each {|l| words << self[0...i]+l+self[i..-1] } }
     words
+  end
+  
+  def known_words_in(words)
+    words.find_all {|w| is_known_word?(w) }
   end
 
   def is_known_word?(word = nil)
